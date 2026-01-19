@@ -31,6 +31,7 @@ define( 'UCWB_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
  */
 require_once UCWB_PLUGIN_DIR . 'includes/class-page-creator.php';
 require_once UCWB_PLUGIN_DIR . 'includes/class-maintenance-mode.php';
+require_once UCWB_PLUGIN_DIR . 'includes/class-admin-notice.php';
 
 /**
  * Activation hook - Create the maintenance page.
@@ -55,6 +56,7 @@ register_deactivation_hook( __FILE__, 'ucwb_deactivate_plugin' );
  */
 function ucwb_init() {
 	UCWB_Maintenance_Mode::init();
+	UCWB_Admin_Notice::init();
 }
 add_action( 'plugins_loaded', 'ucwb_init' );
 
