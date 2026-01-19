@@ -35,8 +35,8 @@ class UCWB_Admin_Notice {
 			return;
 		}
 
-		// Check if maintenance page exists and is published.
-		$maintenance_page = UCWB_Page_Creator::get_maintenance_page();
+		// Get fresh page status (bypass cache).
+		$maintenance_page = get_page_by_path( UCWB_Page_Creator::PAGE_SLUG, OBJECT, 'page' );
 		
 		if ( ! $maintenance_page || 'publish' !== $maintenance_page->post_status ) {
 			return;
@@ -48,7 +48,7 @@ class UCWB_Admin_Notice {
 		?>
 		<div class="notice notice-warning is-dismissible ucwb-maintenance-notice">
 			<p>
-				<strong><?php esc_html_e( '🚧 Under Construction Mode is Active', 'under-construction-with-blocks' ); ?></strong>
+				<strong><?php esc_html_e( '🚧 Under Construction Mode is Active.', 'under-construction-with-blocks' ); ?></strong>
 				<?php esc_html_e( 'Visitors see the maintenance page. Only logged-in users can access the site.', 'under-construction-with-blocks' ); ?>
 			</p>
 			<p>
