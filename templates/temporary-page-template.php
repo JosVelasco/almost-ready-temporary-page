@@ -1,10 +1,10 @@
 <?php
 /**
- * Template Name: Maintenance Page
+ * Template Name: Temporary Page
  * 
  * A blank template that only shows the page content without header/footer.
  *
- * @package UnderConstructionWithBlocks
+ * @package AlmostReadyTemporaryPage
  */
 
 // Prevent direct access.
@@ -39,18 +39,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</style>
 </head>
 <body <?php body_class(); ?>>
-<?php wp_body_open(); ?>
-<?php
-// Output the page content.
-while ( have_posts() ) :
-	the_post();
-	?>
-	<div class="wp-site-blocks">
-		<?php the_content(); ?>
-	</div>
+	<?php wp_body_open(); ?>
 	<?php
-endwhile;
-?>
-<?php wp_footer(); ?>
+	// Output the page content.
+	while ( have_posts() ) :
+		the_post();
+		?>
+		<div class="wp-site-blocks">
+			<?php the_content(); ?>
+		</div>
+		<?php
+	endwhile;
+	?>
+	<?php wp_footer(); ?>
 </body>
 </html>

@@ -2,9 +2,9 @@
 /**
  * Admin Notice Class
  *
- * Displays admin notice when maintenance mode is active.
+ * Displays admin notice when temporary page mode is active.
  *
- * @package UnderConstructionWithBlocks
+ * @package AlmostReadyTemporaryPage
  */
 
 // If this file is called directly, abort.
@@ -13,57 +13,57 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Class UCWB_Admin_Notice
+ * Class ARTP_Admin_Notice
  */
-class UCWB_Admin_Notice {
+class ARTP_Admin_Notice {
 
 	/**
 	 * Initialize the admin notice functionality.
 	 */
 	public static function init() {
-		add_action( 'admin_notices', array( __CLASS__, 'show_maintenance_notice' ) );
+		add_action( 'admin_notices', array( __CLASS__, 'show_temporary_page_notice' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
-		add_action( 'wp_ajax_ucwb_deactivate_maintenance', array( __CLASS__, 'ajax_deactivate_maintenance' ) );
+		add_action( 'wp_ajax_artp_deactivate_temporary_page', array( __CLASS__, 'ajax_deactivate_temporary_page' ) );
 	}
 
 	/**
-	 * Show maintenance mode active notice.
+	 * Show temporary page mode active notice.
 	 */
-	public static function show_maintenance_notice() {
+	public static function show_temporary_page_notice() {
 		// Only show on admin pages.
 		if ( ! is_admin() ) {
 			return;
 		}
 
 		// Get fresh page status (bypass cache).
-		$maintenance_page = get_page_by_path( UCWB_Page_Creator::PAGE_SLUG, OBJECT, 'page' );
+		$temporary_page = get_page_by_path( ARTP_Page_Creator::PAGE_SLUG, OBJECT, 'page' );
 		
-		if ( ! $maintenance_page || 'publish' !== $maintenance_page->post_status ) {
+		if ( ! $temporary_page || 'publish' !== $temporary_page->post_status ) {
 			return;
 		}
 
 		// Get edit page URL.
-		$edit_url = get_edit_post_link( $maintenance_page->ID );
+		$edit_url = get_edit_post_link( $temporary_page->ID );
 		
 		?>
-		<div class="notice notice-warning is-dismissible ucwb-maintenance-notice">
+		<div class="notice notice-warning is-dismissible artp-temporary-page-notice">
 			<p>
-				<strong><?php esc_html_e( '🚧 Under Construction Mode is Active.', 'under-construction-with-blocks' ); ?></strong>
-				<?php esc_html_e( 'Visitors see the maintenance page. Only logged-in users can access the site.', 'under-construction-with-blocks' ); ?>
+				<strong><?php esc_html_e( '✨ Almost Ready Mode is Active.', 'almost-ready-temporary-page' ); ?></strong>
+				<?php esc_html_e( 'Visitors see the temporary page. Only logged-in users can access the site.', 'almost-ready-temporary-page' ); ?>
 			</p>
 			<p>
-				<button type="button" class="button button-primary ucwb-dropdown-toggle">
-					<?php esc_html_e( 'Maintenance Options', 'under-construction-with-blocks' ); ?>
+				<button type="button" class="button button-primary artp-dropdown-toggle">
+					<?php esc_html_e( 'Page Options', 'almost-ready-temporary-page' ); ?>
 					<span class="dashicons dashicons-arrow-down-alt2" style="margin-left: 5px; margin-top: 3px;"></span>
 				</button>
-				<div class="ucwb-dropdown-menu" style="display: none;">
-					<a href="<?php echo esc_url( $edit_url ); ?>" class="ucwb-dropdown-item">
+				<div class="artp-dropdown-menu" style="display: none;">
+					<a href="<?php echo esc_url( $edit_url ); ?>" class="artp-dropdown-item">
 						<span class="dashicons dashicons-edit"></span>
-						<?php esc_html_e( 'Edit Under Construction Page', 'under-construction-with-blocks' ); ?>
+						<?php esc_html_e( 'Edit Temporary Page', 'almost-ready-temporary-page' ); ?>
 					</a>
-					<a href="#" class="ucwb-dropdown-item ucwb-deactivate-link">
+					<a href="#" class="artp-dropdown-item artp-deactivate-link">
 						<span class="dashicons dashicons-hidden"></span>
-						<?php esc_html_e( 'Deactivate Maintenance Mode', 'under-construction-with-blocks' ); ?>
+						<?php esc_html_e( 'Deactivate Temporary Page', 'almost-ready-temporary-page' ); ?>
 					</a>
 				</div>
 			</p>
@@ -80,8 +80,8 @@ class UCWB_Admin_Notice {
 			return;
 		}
 
-		$maintenance_page = UCWB_Page_Creator::get_maintenance_page();
-		if ( ! $maintenance_page || 'publish' !== $maintenance_page->post_status ) {
+		$temporary_page = ARTP_Page_Creator::get_temporary_page();
+		if ( ! $temporary_page || 'publish' !== $temporary_page->post_status ) {
 			return;
 		}
 
@@ -89,7 +89,7 @@ class UCWB_Admin_Notice {
 		wp_add_inline_style(
 			'common',
 			'
-			.ucwb-dropdown-menu {
+			.artp-dropdown-menu {
 				position: absolute;
 				background: #fff;
 				border: 1px solid #c3c4c7;
@@ -99,25 +99,25 @@ class UCWB_Admin_Notice {
 				z-index: 1000;
 				min-width: 250px;
 			}
-			.ucwb-dropdown-item {
+			.artp-dropdown-item {
 				display: block;
 				padding: 10px 15px;
 				color: #2271b1;
 				text-decoration: none;
 				border-bottom: 1px solid #f0f0f1;
 			}
-			.ucwb-dropdown-item:last-child {
+			.artp-dropdown-item:last-child {
 				border-bottom: none;
 			}
-			.ucwb-dropdown-item:hover {
+			.artp-dropdown-item:hover {
 				background: #f6f7f7;
 				color: #135e96;
 			}
-			.ucwb-dropdown-item .dashicons {
+			.artp-dropdown-item .dashicons {
 				margin-right: 8px;
 				color: #50575e;
 			}
-			.ucwb-dropdown-toggle {
+			.artp-dropdown-toggle {
 				position: relative;
 			}
 			'
@@ -129,24 +129,24 @@ class UCWB_Admin_Notice {
 			"
 			jQuery(document).ready(function($) {
 				// Toggle dropdown
-				$('.ucwb-dropdown-toggle').on('click', function(e) {
+				$('.artp-dropdown-toggle').on('click', function(e) {
 					e.preventDefault();
 					e.stopPropagation();
-					$('.ucwb-dropdown-menu').slideToggle(200);
+					$('.artp-dropdown-menu').slideToggle(200);
 				});
 
 				// Close dropdown when clicking outside
 				$(document).on('click', function(e) {
-					if (!$(e.target).closest('.ucwb-dropdown-toggle, .ucwb-dropdown-menu').length) {
-						$('.ucwb-dropdown-menu').slideUp(200);
+					if (!$(e.target).closest('.artp-dropdown-toggle, .artp-dropdown-menu').length) {
+						$('.artp-dropdown-menu').slideUp(200);
 					}
 				});
 
 				// Handle deactivate link
-				$('.ucwb-deactivate-link').on('click', function(e) {
+				$('.artp-deactivate-link').on('click', function(e) {
 					e.preventDefault();
 					
-					if (!confirm('" . esc_js( __( 'Are you sure you want to deactivate maintenance mode? Visitors will be able to access your site.', 'under-construction-with-blocks' ) ) . "')) {
+					if (!confirm('" . esc_js( __( 'Are you sure you want to deactivate the temporary page? Visitors will be able to access your site.', 'almost-ready-temporary-page' ) ) . "')) {
 						return;
 					}
 
@@ -154,18 +154,18 @@ class UCWB_Admin_Notice {
 						url: ajaxurl,
 						type: 'POST',
 						data: {
-							action: 'ucwb_deactivate_maintenance',
-							nonce: '" . wp_create_nonce( 'ucwb_deactivate_maintenance' ) . "'
+							action: 'artp_deactivate_temporary_page',
+							nonce: '" . wp_create_nonce( 'artp_deactivate_temporary_page' ) . "'
 						},
 						success: function(response) {
 							if (response.success) {
 								location.reload();
 							} else {
-								alert('" . esc_js( __( 'Error deactivating maintenance mode. Please try again.', 'under-construction-with-blocks' ) ) . "');
+								alert('" . esc_js( __( 'Error deactivating temporary page. Please try again.', 'almost-ready-temporary-page' ) ) . "');
 							}
 						},
 						error: function() {
-							alert('" . esc_js( __( 'Error deactivating maintenance mode. Please try again.', 'under-construction-with-blocks' ) ) . "');
+							alert('" . esc_js( __( 'Error deactivating temporary page. Please try again.', 'almost-ready-temporary-page' ) ) . "');
 						}
 					});
 				});
@@ -175,20 +175,20 @@ class UCWB_Admin_Notice {
 	}
 
 	/**
-	 * AJAX handler to deactivate maintenance mode.
+	 * AJAX handler to deactivate temporary page mode.
 	 */
-	public static function ajax_deactivate_maintenance() {
+	public static function ajax_deactivate_temporary_page() {
 		// Check nonce.
-		check_ajax_referer( 'ucwb_deactivate_maintenance', 'nonce' );
+		check_ajax_referer( 'artp_deactivate_temporary_page', 'nonce' );
 
 		// Check user capabilities.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action.', 'under-construction-with-blocks' ) ) );
+			wp_send_json_error( array( 'message' => __( 'You do not have permission to perform this action.', 'almost-ready-temporary-page' ) ) );
 		}
 
-		// Deactivate maintenance mode.
-		UCWB_Page_Creator::deactivate_maintenance_page();
+		// Deactivate temporary page mode.
+		ARTP_Page_Creator::deactivate_temporary_page();
 
-		wp_send_json_success( array( 'message' => __( 'Maintenance mode deactivated.', 'under-construction-with-blocks' ) ) );
+		wp_send_json_success( array( 'message' => __( 'Temporary page deactivated.', 'almost-ready-temporary-page' ) ) );
 	}
 }

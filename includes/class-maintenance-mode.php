@@ -2,9 +2,9 @@
 /**
  * Maintenance Mode Class
  *
- * Handles displaying the maintenance page to visitors.
+ * Handles displaying the temporary page to visitors.
  *
- * @package UnderConstructionWithBlocks
+ * @package AlmostReadyTemporaryPage
  */
 
 // If this file is called directly, abort.
@@ -13,30 +13,30 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Class UCWB_Maintenance_Mode
+ * Class ARTP_Maintenance_Mode
  */
-class UCWB_Maintenance_Mode {
+class ARTP_Maintenance_Mode {
 
 	/**
 	 * Initialize the maintenance mode functionality.
 	 */
 	public static function init() {
-		add_action( 'template_redirect', array( __CLASS__, 'show_maintenance_page' ) );
+		add_action( 'template_redirect', array( __CLASS__, 'show_temporary_page' ) );
 		add_filter( 'wp_robots', array( __CLASS__, 'add_noindex_robots' ) );
 		add_action( 'wp', array( __CLASS__, 'remove_header_footer' ) );
 	}
 
 	/**
-	 * Show the maintenance page to non-logged-in users.
+	 * Show the temporary page to non-logged-in users.
 	 */
-	public static function show_maintenance_page() {
+	public static function show_temporary_page() {
 		// Don't show to logged-in users.
 		if ( is_user_logged_in() ) {
 			return;
 		}
 
-		// Don't show on the maintenance page itself to avoid loops.
-		if ( is_page( UCWB_Page_Creator::PAGE_SLUG ) ) {
+		// Don't show on the temporary page itself to avoid loops.
+		if ( is_page( ARTP_Page_Creator::PAGE_SLUG ) ) {
 			return;
 		}
 
@@ -45,24 +45,24 @@ class UCWB_Maintenance_Mode {
 			return;
 		}
 
-		// Get the maintenance page.
-		$maintenance_page = UCWB_Page_Creator::get_maintenance_page();
+		// Get the temporary page.
+		$temporary_page = ARTP_Page_Creator::get_temporary_page();
 
-		if ( ! $maintenance_page || 'publish' !== $maintenance_page->post_status ) {
+		if ( ! $temporary_page || 'publish' !== $temporary_page->post_status ) {
 			return;
 		}
 
-		// Redirect to the maintenance page.
-		wp_safe_redirect( get_permalink( $maintenance_page->ID ), 302 );
+		// Redirect to the temporary page.
+		wp_safe_redirect( get_permalink( $temporary_page->ID ), 302 );
 		exit;
 	}
 
 	/**
-	 * Remove header and footer from the maintenance page.
+	 * Remove header and footer from the temporary page.
 	 */
 	public static function remove_header_footer() {
-		// Only apply to the maintenance page.
-		if ( ! is_page( UCWB_Page_Creator::PAGE_SLUG ) ) {
+		// Only apply to the temporary page.
+		if ( ! is_page( ARTP_Page_Creator::PAGE_SLUG ) ) {
 			return;
 		}
 
@@ -116,15 +116,15 @@ class UCWB_Maintenance_Mode {
 	}
 
 	/**
-	 * Use a custom blank template for the maintenance page.
+	 * Use a custom blank template for the temporary page.
 	 *
 	 * @param string $template The path of the template to include.
 	 * @return string Modified template path.
 	 */
 	public static function custom_template( $template ) {
-		if ( is_page( UCWB_Page_Creator::PAGE_SLUG ) ) {
+		if ( is_page( ARTP_Page_Creator::PAGE_SLUG ) ) {
 			// Create a custom template that only outputs the content.
-			$custom_template = UCWB_PLUGIN_DIR . 'templates/maintenance-template.php';
+			$custom_template = ARTP_PLUGIN_DIR . 'templates/temporary-page-template.php';
 			
 			if ( file_exists( $custom_template ) ) {
 				return $custom_template;
@@ -134,13 +134,13 @@ class UCWB_Maintenance_Mode {
 	}
 
 	/**
-	 * Add noindex robots meta tag to maintenance page.
+	 * Add noindex robots meta tag to temporary page.
 	 *
 	 * @param array $robots Current robots directives.
 	 * @return array Modified robots directives.
 	 */
 	public static function add_noindex_robots( $robots ) {
-		if ( is_page( UCWB_Page_Creator::PAGE_SLUG ) ) {
+		if ( is_page( ARTP_Page_Creator::PAGE_SLUG ) ) {
 			$robots['noindex']  = true;
 			$robots['nofollow'] = true;
 		}
