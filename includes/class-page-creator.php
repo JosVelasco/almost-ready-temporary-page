@@ -90,16 +90,16 @@ class ARTP_Page_Creator {
 	private static function get_default_content() {
 		$content = '<!-- wp:cover {"isUserOverlayColor":true,"minHeight":100,"minHeightUnit":"vh","customGradient":"linear-gradient(135deg,rgb(74,29,150) 0%,rgb(139,92,246) 100%)","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}}} -->
 <div class="wp-block-cover alignfull" style="padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50);min-height:100vh"><span aria-hidden="true" class="wp-block-cover__background has-background-dim-100 has-background-dim has-background-gradient" style="background:linear-gradient(135deg,rgb(74,29,150) 0%,rgb(139,92,246) 100%)"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"type":"constrained","contentSize":"600px"}} -->
-<div class="wp-block-group"><!-- wp:heading {"textAlign":"center","level":1,"fontSize":"x-large"} -->
-<h1 class="wp-block-heading has-text-align-center has-x-large-font-size"><strong>✨ Almost Ready!</strong></h1>
+<div class="wp-block-group"><!-- wp:heading {"level":1,"style":{"typography":{"textAlign":"center"},"elements":{"link":{"color":{"text":"var:preset|color|white"}}}},"textColor":"white","fontSize":"x-large"} -->
+<h1 class="wp-block-heading has-text-align-center has-white-color has-text-color has-link-color has-x-large-font-size"><strong>✨ Almost Ready!</strong></h1>
 <!-- /wp:heading -->
-<!-- wp:paragraph {"align":"center","fontSize":"medium"} -->
+<!-- wp:paragraph {"style":{"typography":{"textAlign":"center"}},"fontSize":"medium"} -->
 <p class="has-text-align-center has-medium-font-size">We\'re putting the finishing touches on something great. Check back soon!</p>
 <!-- /wp:paragraph -->
-<!-- wp:spacer {"height":"40px"} -->
-<div style="height:40px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- wp:spacer {"height":"30px"} -->
+<div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->
-<!-- wp:paragraph {"align":"center","fontSize":"small"} -->
+<!-- wp:paragraph {"style":{"typography":{"textAlign":"center"}},"fontSize":"small"} -->
 <p class="has-text-align-center has-small-font-size">In the meantime, feel free to reach out if you have any questions.</p>
 <!-- /wp:paragraph -->
 <!-- wp:social-links {"size":"has-normal-icon-size","align":"center","layout":{"type":"flex","justifyContent":"center"}} -->
