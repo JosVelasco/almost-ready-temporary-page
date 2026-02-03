@@ -34,6 +34,18 @@ require_once ARTP_PLUGIN_DIR . 'includes/class-maintenance-mode.php';
 require_once ARTP_PLUGIN_DIR . 'includes/class-admin-notice.php';
 
 /**
+ * Load plugin text domain for translations.
+ */
+function artp_load_textdomain() {
+	load_plugin_textdomain(
+		'almost-ready-temporary-page',
+		false,
+		dirname( plugin_basename( __FILE__ ) ) . '/languages'
+	);
+}
+add_action( 'init', 'artp_load_textdomain' );
+
+/**
  * Activation hook - Create the temporary page.
  */
 function artp_activate_plugin() {
