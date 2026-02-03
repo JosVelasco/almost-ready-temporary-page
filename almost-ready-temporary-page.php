@@ -72,8 +72,8 @@ function artp_add_action_links( $links ) {
 	if ( $page ) {
 		$edit_link = sprintf(
 			'<a href="%s">%s</a>',
-			get_edit_post_link( $page->ID ),
-			__( 'Edit Page', 'almost-ready-temporary-page' )
+			esc_url( get_edit_post_link( $page->ID ) ),
+			esc_html__( 'Edit Page', 'almost-ready-temporary-page' )
 		);
 		
 		// Add the link at the beginning of the array.

@@ -41,7 +41,7 @@ class ARTP_Maintenance_Mode {
 		}
 
 		// Don't show in admin or login pages.
-		if ( is_admin() || $GLOBALS['pagenow'] === 'wp-login.php' ) {
+		if ( is_admin() || ( isset( $GLOBALS['pagenow'] ) && 'wp-login.php' === $GLOBALS['pagenow'] ) ) {
 			return;
 		}
 
