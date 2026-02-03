@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Enqueue inline styles for the temporary page template.
  */
 function artp_template_inline_styles() {
-	wp_register_style( 'artp-template-style', false );
+	wp_register_style( 'artp-template-style', false, array(), ARTP_VERSION );
 	wp_enqueue_style( 'artp-template-style' );
 	wp_add_inline_style(
 		'artp-template-style',

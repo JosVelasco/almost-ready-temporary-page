@@ -86,7 +86,7 @@ class ARTP_Admin_Notice {
 		}
 
 		// Register and enqueue the inline style.
-		wp_register_style( 'artp-admin-style', false );
+		wp_register_style( 'artp-admin-style', false, array(), ARTP_VERSION );
 		wp_enqueue_style( 'artp-admin-style' );
 		wp_add_inline_style(
 			'artp-admin-style',
