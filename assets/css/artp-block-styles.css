@@ -1,0 +1,42 @@
+/*
+ * Almost Ready Temporary Page — Block Styles
+ *
+ * Handles layout (vertical flex centering) shared by all Almost Ready
+ * style variations, and the background image for the Nature Photo style.
+ *
+ * The per-style colors and gradients are registered via register_block_style()
+ * with style_data (theme.json-shaped PHP array) in class-style-manager.php,
+ * so WordPress generates scoped CSS for those automatically.
+ */
+
+/*
+ * Shared layout for all Almost Ready style variations.
+ *
+ * WordPress generates per-block layout CSS for blocks created in the editor,
+ * but not for block HTML inserted programmatically via wp_update_post().
+ * These rules ensure vertical flex centering works on the frontend regardless.
+ */
+.wp-block-group[class*="is-style-artp-"] {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+/*
+ * Nature Photo style.
+ *
+ * Photo: Tropical beach (CC0) by Faisal Ahammad
+ * Source: https://wordpress.org/photos/photo/68669cd2a7/
+ *
+ * The first gradient layer is a semi-transparent black overlay that
+ * ensures white text remains legible over the photo, without needing
+ * a separate DOM element.
+ */
+.wp-block-group.is-style-artp-nature {
+	background-image:
+		linear-gradient( rgba( 0, 0, 0, 0.55 ), rgba( 0, 0, 0, 0.55 ) ),
+		url( "https://pd.w.org/2026/04/68669cd2a70648216.07059024-2048x1536.jpg" );
+	background-size: cover;
+	background-position: center;
+}

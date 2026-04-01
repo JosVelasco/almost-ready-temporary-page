@@ -1,10 +1,10 @@
 === Almost Ready Temporary Page ===
 Contributors: josvelasco
 Tags: temporary page, coming soon, maintenance mode, blocks, under construction
-Requires at least: 6.0
+Requires at least: 6.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,7 @@ Almost Ready Temporary Page is a simple plugin that shows a friendly temporary p
 * **Native Blocks** - Uses WordPress core blocks, no proprietary builders
 * **Automatic Setup** - No complicated configuration needed
 * **Smart Detection** - Visitors see the temporary page, logged-in users see the normal site
+* **Six Style Variations** - Switch styles with one click from the block editor sidebar
 * **Fully Customizable** - Change text, colors, layout, add images using blocks
 * **SEO Friendly** - Tells search engines not to index the temporary page
 * **Theme Compatible** - Works with any WordPress theme
@@ -85,6 +86,12 @@ Almost Ready Temporary Page is the only plugin that uses native WordPress core b
 
 == Changelog ==
 
+= 1.1.0 =
+* Add six opinionated full-page style variations: Purple Gradient, Dark Mode, Minimal, Warm Sunset, Nature Photo, Forest
+* Styles are registered as block style variations (WP 6.6+ style_data API) — switch with one click from the block editor sidebar
+* Add Settings > Almost Ready page for setting the initial style
+* Bump minimum WordPress version to 6.6
+
 = 1.0.0 =
 * Initial release
 * Automatic temporary page creation
@@ -94,5 +101,5 @@ Almost Ready Temporary Page is the only plugin that uses native WordPress core b
 
 == Upgrade Notice ==
 
-= 1.0.0 =
-Initial release of Almost Ready Temporary Page.
+= 1.1.0 =
+Requires WordPress 6.6 or higher. Adds six style variations switchable from the block editor sidebar.

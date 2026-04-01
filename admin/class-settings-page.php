@@ -119,7 +119,7 @@ class ARTP_Settings_Page {
 			<?php endif; ?>
 
 			<p class="description">
-				<?php esc_html_e( 'Choose a visual style for your temporary page. Applying a style will replace the page content with the selected design. If you have customized the page, make sure to back up your changes first.', 'almost-ready-temporary-page' ); ?>
+				<?php esc_html_e( 'Set the initial content style for your temporary page. Once applied, you can switch styles at any time directly from the block editor — select the outer Group block and choose a variation from the Styles panel in the sidebar — without losing your customizations.', 'almost-ready-temporary-page' ); ?>
 			</p>
 
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">

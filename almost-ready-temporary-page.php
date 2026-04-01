@@ -3,13 +3,14 @@
  * Plugin Name: Almost Ready Temporary Page
  * Plugin URI: https://github.com/JosVelasco/almost-ready-temporary-page
  * Description: A simple plugin that displays a customizable temporary page to visitors while allowing logged-in users to work on the site. Fully editable using native WordPress blocks.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Jos Velasco
  * Author URI: https://josvelasco.com
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: almost-ready-temporary-page
  * Domain Path: /languages
+ * Requires at least: 6.6
  *
  * @package AlmostReadyTemporaryPage
  */
@@ -22,7 +23,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Current plugin version.
  */
-define( 'ARTP_VERSION', '1.0.0' );
+define( 'ARTP_VERSION', '1.1.0' );
 define( 'ARTP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ARTP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
@@ -57,6 +58,7 @@ register_deactivation_hook( __FILE__, 'artp_deactivate_plugin' );
  * Initialize the temporary page functionality.
  */
 function artp_init() {
+	ARTP_Style_Manager::init();
 	ARTP_Maintenance_Mode::init();
 	ARTP_Admin_Notice::init();
 	ARTP_Settings_Page::init();
