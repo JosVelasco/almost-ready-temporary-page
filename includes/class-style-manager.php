@@ -262,18 +262,19 @@ class ARTP_Style_Manager {
 
 	/**
 	 * Style: Nature Photo.
-	 * Full-screen photo from the WordPress Photo Directory (CC0) as background.
-	 * Photo: "Golden Sunset" by sebasmadriz — wordpress.org/photos
+	 * Full-screen landscape photo from the WordPress Photo Directory (CC0) as background.
+	 * Photo: Tropical beach by Faisal Ahammad — wordpress.org/photos/photo/68669cd2a7/
 	 *
 	 * @return string
 	 */
 	private static function get_nature_content() {
-		// CC0 photo from the WordPress Photo Directory.
+		// CC0 landscape photo from the WordPress Photo Directory (2048×1536).
 		// Replace this URL with any other photo from wordpress.org/photos if preferred.
-		$photo_url = 'https://pd.w.org/2026/04/41269cc799b543952.63951106-1536x2048.jpeg';
+		$photo_url = 'https://pd.w.org/2026/04/68669cd2a70648216.07059024-2048x1536.jpg';
+		$photo_alt = 'A tropical beach with dense green trees and bushes beside white sand. Large gray rocks sit on the left, and sunlight casts soft shadows under a bright blue sky.';
 
 		$content = '<!-- wp:cover {"url":"' . esc_url( $photo_url ) . '","dimRatio":60,"customOverlayColor":"#000000","isUserOverlayColor":true,"minHeight":100,"minHeightUnit":"vh","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}}} -->
-<div class="wp-block-cover alignfull" style="padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50);min-height:100vh"><span aria-hidden="true" class="wp-block-cover__background has-background-dim-60 has-background-dim" style="background-color:#000000"></span><img class="wp-block-cover__image-background" alt="" src="' . esc_url( $photo_url ) . '" style="object-fit:cover" data-object-fit="cover"/><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"type":"constrained","contentSize":"600px"}} -->
+<div class="wp-block-cover alignfull" style="padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50);min-height:100vh"><span aria-hidden="true" class="wp-block-cover__background has-background-dim-60 has-background-dim" style="background-color:#000000"></span><img class="wp-block-cover__image-background" alt="' . esc_attr( $photo_alt ) . '" src="' . esc_url( $photo_url ) . '" data-object-fit="cover"><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"type":"constrained","contentSize":"600px"}} -->
 <div class="wp-block-group"><!-- wp:heading {"level":1,"style":{"typography":{"textAlign":"center"},"elements":{"link":{"color":{"text":"var:preset|color|white"}}}},"textColor":"white","fontSize":"x-large"} -->
 <h1 class="wp-block-heading has-text-align-center has-white-color has-text-color has-link-color has-x-large-font-size"><strong>✨ Almost Ready!</strong></h1>
 <!-- /wp:heading -->
