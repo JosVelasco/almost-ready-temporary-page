@@ -4,6 +4,10 @@
  *
  * Registers and renders the style picker settings page.
  *
+ * The style grid is rendered by @wordpress/dataviews (JS) to match the same
+ * UI as the Site Editor's Templates and Patterns screens. Style data and the
+ * form action URL are passed from PHP via wp_localize_script.
+ *
  * @package AlmostReadyTemporaryPage
  */
 
@@ -30,6 +34,8 @@ class ARTP_Settings_Page {
 	public static function init() {
 		add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) );
 		add_action( 'admin_post_artp_apply_style', array( __CLASS__, 'handle_apply_style' ) );
+		// Priority 100 — run after Gutenberg registers its packages (priority 5).
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ), 100 );
 	}
 
 	/**
@@ -43,6 +49,66 @@ class ARTP_Settings_Page {
 			self::MENU_SLUG,
 			array( __CLASS__, 'render_page' )
 		);
+	}
+
+	/**
+	 * Enqueue the DataViews style picker script on our settings page only.
+	 *
+	 * @param string $hook_suffix Current admin page hook suffix.
+	 */
+	public static function enqueue_assets( $hook_suffix ) {
+		if ( 'settings_page_' . self::MENU_SLUG !== $hook_suffix ) {
+			return;
+		}
+
+		// Use the generated asset file for correct dependency list and version hash.
+		$asset_file = ARTP_PLUGIN_DIR . 'admin/js/build/style-picker.asset.php';
+		$asset      = file_exists( $asset_file )
+			? include $asset_file
+			: array(
+				'dependencies' => array( 'wp-element', 'wp-i18n', 'wp-dom-ready' ),
+				'version'      => ARTP_VERSION,
+			);
+
+		wp_enqueue_script(
+			'artp-style-picker',
+			ARTP_PLUGIN_URL . 'admin/js/build/style-picker.js',
+			$asset['dependencies'],
+			$asset['version'],
+			true
+		);
+
+		wp_enqueue_style(
+			'artp-dataviews',
+			ARTP_PLUGIN_URL . 'admin/js/build/dataviews.css',
+			array( 'wp-components' ),
+			ARTP_VERSION
+		);
+
+		$active_style = ARTP_Style_Manager::get_active_style();
+		$styles_data  = array();
+
+		foreach ( ARTP_Style_Manager::get_styles() as $slug => $style ) {
+			$styles_data[] = array(
+				'slug'        => $slug,
+				'label'       => $style['label'],
+				'description' => $style['description'],
+				'previewUrl'  => ARTP_Style_Preview::preview_url( $slug ),
+				'isActive'    => ( $slug === $active_style ),
+			);
+		}
+
+		wp_localize_script(
+			'artp-style-picker',
+			'artpStylePicker',
+			array(
+				'styles'   => $styles_data,
+				'applyUrl' => admin_url( 'admin-post.php' ),
+				'nonce'    => wp_create_nonce( 'artp_apply_style' ),
+			)
+		);
+
+		wp_enqueue_style( 'wp-components' );
 	}
 
 	/**
@@ -81,18 +147,19 @@ class ARTP_Settings_Page {
 	}
 
 	/**
-	 * Render the settings page.
+	 * Render the settings page shell.
+	 *
+	 * The style grid itself is rendered by artp-style-picker.js into
+	 * #artp-style-picker-root via @wordpress/dataviews.
 	 */
 	public static function render_page() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
-		$styles       = ARTP_Style_Manager::get_styles();
-		$active_style = ARTP_Style_Manager::get_active_style();
-		$page         = ARTP_Page_Creator::get_temporary_page();
+		$page = ARTP_Page_Creator::get_temporary_page();
 		?>
-		<div class="wrap artp-settings">
+		<div class="wrap">
 			<h1><?php esc_html_e( 'Almost Ready — Style', 'almost-ready-temporary-page' ); ?></h1>
 
 			<?php if ( isset( $_GET['artp_updated'] ) ) : ?>
@@ -118,151 +185,8 @@ class ARTP_Settings_Page {
 				</div>
 			<?php endif; ?>
 
-			<p class="description">
-				<?php esc_html_e( 'Set the initial content style for your temporary page. Once applied, you can switch styles at any time directly from the block editor — select the outer Group block and choose a variation from the Styles panel in the sidebar — without losing your customizations.', 'almost-ready-temporary-page' ); ?>
-			</p>
-
-			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-				<input type="hidden" name="action" value="artp_apply_style">
-				<?php wp_nonce_field( 'artp_apply_style' ); ?>
-
-				<div class="artp-style-grid">
-					<?php foreach ( $styles as $slug => $style ) : ?>
-						<?php
-						$is_active  = ( $slug === $active_style );
-						$preview_bg = isset( $style['preview_bg'] )
-							? $style['preview_bg']
-							: $style['preview_gradient'];
-						$preview_css = 'background:' . esc_attr( $preview_bg ) . ';color:' . esc_attr( $style['text_preview'] ) . ';';
-						?>
-						<label class="artp-style-card">
-							<input
-								type="radio"
-								name="artp_style"
-								value="<?php echo esc_attr( $slug ); ?>"
-								<?php checked( $is_active ); ?>
-							>
-							<span class="artp-style-preview" style="<?php echo $preview_css; ?>" aria-hidden="true">
-								<span class="artp-preview-heading">✨ Almost Ready!</span>
-								<span class="artp-preview-text"><?php esc_html_e( "We're putting the finishing touches on something great.", 'almost-ready-temporary-page' ); ?></span>
-								<span class="artp-preview-icons">
-									<span></span><span></span><span></span>
-								</span>
-							</span>
-							<span class="artp-style-info">
-								<strong class="artp-style-label"><?php echo esc_html( $style['label'] ); ?></strong>
-								<?php if ( $is_active ) : ?>
-									<span class="artp-style-badge"><?php esc_html_e( 'Active', 'almost-ready-temporary-page' ); ?></span>
-								<?php endif; ?>
-								<span class="artp-style-description"><?php echo esc_html( $style['description'] ); ?></span>
-							</span>
-						</label>
-					<?php endforeach; ?>
-				</div>
-
-				<?php submit_button( __( 'Apply Selected Style', 'almost-ready-temporary-page' ), 'primary', 'submit', true ); ?>
-			</form>
+			<div id="artp-style-picker-root"></div>
 		</div>
-
-		<style>
-		.artp-settings .description {
-			margin: 12px 0 24px;
-			max-width: 680px;
-		}
-		.artp-style-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-			gap: 16px;
-			max-width: 900px;
-			margin-bottom: 24px;
-		}
-		.artp-style-card {
-			display: flex;
-			flex-direction: column;
-			border: 2px solid #c3c4c7;
-			border-radius: 8px;
-			cursor: pointer;
-			overflow: hidden;
-			transition: border-color 0.15s, box-shadow 0.15s;
-			background: #fff;
-		}
-		.artp-style-card:hover,
-		.artp-style-card:has(input:checked) {
-			border-color: #2271b1;
-			box-shadow: 0 0 0 1px #2271b1;
-		}
-		.artp-style-card input[type="radio"] {
-			position: absolute;
-			opacity: 0;
-			pointer-events: none;
-		}
-		/* Preview thumbnail — mimics the real temporary page layout */
-		.artp-style-preview {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			height: 160px;
-			gap: 7px;
-			padding: 20px 16px;
-			box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.07);
-		}
-		.artp-preview-heading {
-			font-size: 12px;
-			font-weight: 700;
-			text-align: center;
-			line-height: 1.2;
-			letter-spacing: 0.02em;
-		}
-		.artp-preview-text {
-			font-size: 9px;
-			text-align: center;
-			opacity: 0.72;
-			max-width: 130px;
-			line-height: 1.4;
-		}
-		.artp-preview-icons {
-			display: flex;
-			gap: 6px;
-			margin-top: 4px;
-		}
-		.artp-preview-icons span {
-			display: block;
-			width: 10px;
-			height: 10px;
-			border-radius: 50%;
-			background: currentColor;
-			opacity: 0.65;
-		}
-		.artp-style-info {
-			display: flex;
-			flex-direction: column;
-			gap: 4px;
-			padding: 12px 14px;
-			border-top: 1px solid #f0f0f1;
-		}
-		.artp-style-label {
-			font-size: 13px;
-			color: #1d2327;
-		}
-		.artp-style-badge {
-			display: inline-block;
-			background: #2271b1;
-			color: #fff;
-			font-size: 10px;
-			font-weight: 600;
-			text-transform: uppercase;
-			letter-spacing: 0.05em;
-			padding: 2px 6px;
-			border-radius: 3px;
-			width: fit-content;
-		}
-		.artp-style-description {
-			font-size: 12px;
-			color: #646970;
-			line-height: 1.4;
-		}
-		</style>
 		<?php
 	}
 }

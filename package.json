@@ -1,0 +1,13 @@
+{
+  "name": "almost-ready-temporary-page",
+  "version": "1.1.0",
+  "private": true,
+  "scripts": {
+    "build": "webpack --config webpack.config.js && cp node_modules/@wordpress/dataviews/build-style/style.css admin/js/build/dataviews.css",
+    "start": "webpack --config webpack.config.js --watch"
+  },
+  "devDependencies": {
+    "@wordpress/dataviews": "*",
+    "@wordpress/scripts": "^30.0.0"
+  }
+}

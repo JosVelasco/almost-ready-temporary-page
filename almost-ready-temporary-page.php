@@ -34,6 +34,7 @@ require_once ARTP_PLUGIN_DIR . 'includes/class-style-manager.php';
 require_once ARTP_PLUGIN_DIR . 'includes/class-page-creator.php';
 require_once ARTP_PLUGIN_DIR . 'includes/class-maintenance-mode.php';
 require_once ARTP_PLUGIN_DIR . 'includes/class-admin-notice.php';
+require_once ARTP_PLUGIN_DIR . 'includes/class-style-preview.php';
 require_once ARTP_PLUGIN_DIR . 'admin/class-settings-page.php';
 
 /**
@@ -62,6 +63,7 @@ function artp_init() {
 	ARTP_Maintenance_Mode::init();
 	ARTP_Admin_Notice::init();
 	ARTP_Settings_Page::init();
+	ARTP_Style_Preview::init();
 }
 add_action( 'plugins_loaded', 'artp_init' );
 
