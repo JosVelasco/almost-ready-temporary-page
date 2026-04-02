@@ -34,8 +34,7 @@ require_once ARTP_PLUGIN_DIR . 'includes/class-style-manager.php';
 require_once ARTP_PLUGIN_DIR . 'includes/class-page-creator.php';
 require_once ARTP_PLUGIN_DIR . 'includes/class-maintenance-mode.php';
 require_once ARTP_PLUGIN_DIR . 'includes/class-admin-notice.php';
-require_once ARTP_PLUGIN_DIR . 'includes/class-style-preview.php';
-require_once ARTP_PLUGIN_DIR . 'admin/class-settings-page.php';
+require_once ARTP_PLUGIN_DIR . 'includes/class-pattern-manager.php';
 
 /**
  * Activation hook - Create the temporary page.
@@ -62,8 +61,7 @@ function artp_init() {
 	ARTP_Style_Manager::init();
 	ARTP_Maintenance_Mode::init();
 	ARTP_Admin_Notice::init();
-	ARTP_Settings_Page::init();
-	ARTP_Style_Preview::init();
+	ARTP_Pattern_Manager::init();
 }
 add_action( 'plugins_loaded', 'artp_init' );
 
@@ -74,13 +72,6 @@ add_action( 'plugins_loaded', 'artp_init' );
  * @return array Modified plugin action links.
  */
 function artp_add_action_links( $links ) {
-	$style_link = sprintf(
-		'<a href="%s">%s</a>',
-		esc_url( admin_url( 'options-general.php?page=' . ARTP_Settings_Page::MENU_SLUG ) ),
-		esc_html__( 'Style', 'almost-ready-temporary-page' )
-	);
-	array_unshift( $links, $style_link );
-
 	$page = ARTP_Page_Creator::get_temporary_page();
 
 	if ( $page ) {
@@ -89,8 +80,6 @@ function artp_add_action_links( $links ) {
 			esc_url( get_edit_post_link( $page->ID ) ),
 			esc_html__( 'Edit Page', 'almost-ready-temporary-page' )
 		);
-
-		// Add the link at the beginning of the array.
 		array_unshift( $links, $edit_link );
 	}
 

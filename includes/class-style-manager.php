@@ -176,7 +176,7 @@ class ARTP_Style_Manager {
 	 * @param string $slug Style slug.
 	 * @return array
 	 */
-	public static function get_style_data( $slug ) {
+	private static function get_style_data( $slug ) {
 		switch ( $slug ) {
 			case 'dark':
 				return array(

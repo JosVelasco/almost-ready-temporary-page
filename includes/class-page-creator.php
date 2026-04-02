@@ -93,43 +93,6 @@ class ARTP_Page_Creator {
 	}
 
 	/**
-	 * Apply a style to the temporary page by swapping the is-style-artp-* class.
-	 *
-	 * Preserves all existing page content and only changes the style class on
-	 * the outer Group block. Falls back to the plugin's default template if
-	 * the page has no content yet.
-	 *
-	 * @param string $style_slug Style slug.
-	 * @return int|false Updated post ID on success, false on failure.
-	 */
-	public static function apply_style( $style_slug ) {
-		$page = self::get_temporary_page();
-
-		if ( ! $page ) {
-			return false;
-		}
-
-		if ( ! empty( $page->post_content ) ) {
-			$content = preg_replace(
-				'/\bis-style-artp-[\w-]+\b/',
-				'is-style-artp-' . $style_slug,
-				$page->post_content
-			);
-		} else {
-			$content = ARTP_Style_Manager::get_content_for_style( $style_slug );
-		}
-
-		$result = wp_update_post(
-			array(
-				'ID'           => $page->ID,
-				'post_content' => $content,
-			)
-		);
-
-		return $result ? $result : false;
-	}
-
-	/**
 	 * Get the temporary page.
 	 *
 	 * @return WP_Post|null The temporary page post object or null.
