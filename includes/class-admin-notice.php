@@ -61,11 +61,7 @@ class ARTP_Admin_Notice {
 						<span class="dashicons dashicons-edit"></span>
 						<?php esc_html_e( 'Edit Temporary Page', 'almost-ready-temporary-page' ); ?>
 					</a>
-					<a href="<?php echo esc_url( admin_url( 'options-general.php?page=' . ARTP_Settings_Page::MENU_SLUG ) ); ?>" class="artp-dropdown-item">
-						<span class="dashicons dashicons-art"></span>
-						<?php esc_html_e( 'Change Style', 'almost-ready-temporary-page' ); ?>
-					</a>
-					<a href="#" class="artp-dropdown-item artp-deactivate-link">
+<a href="#" class="artp-dropdown-item artp-deactivate-link">
 						<span class="dashicons dashicons-hidden"></span>
 						<?php esc_html_e( 'Deactivate Temporary Page', 'almost-ready-temporary-page' ); ?>
 					</a>
