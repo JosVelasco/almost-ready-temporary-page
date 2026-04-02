@@ -128,22 +128,24 @@ class ARTP_Settings_Page {
 
 				<div class="artp-style-grid">
 					<?php foreach ( $styles as $slug => $style ) : ?>
-						<?php $is_active = ( $slug === $active_style ); ?>
-						<label class="artp-style-card<?php echo $is_active ? ' artp-style-card--active' : ''; ?>">
+						<?php
+						$is_active  = ( $slug === $active_style );
+						$preview_bg = isset( $style['preview_bg'] )
+							? $style['preview_bg']
+							: $style['preview_gradient'];
+						$preview_css = 'background:' . esc_attr( $preview_bg ) . ';color:' . esc_attr( $style['text_preview'] ) . ';';
+						?>
+						<label class="artp-style-card">
 							<input
 								type="radio"
 								name="artp_style"
 								value="<?php echo esc_attr( $slug ); ?>"
 								<?php checked( $is_active ); ?>
 							>
-							<span
-								class="artp-style-preview"
-								style="background: <?php echo esc_attr( $style['preview_gradient'] ); ?>; color: <?php echo esc_attr( $style['text_preview'] ); ?>;"
-								aria-hidden="true"
-							>
-								<span class="artp-style-preview-bar"></span>
-								<span class="artp-style-preview-bar artp-style-preview-bar--short"></span>
-								<span class="artp-style-preview-dots">
+							<span class="artp-style-preview" style="<?php echo $preview_css; ?>" aria-hidden="true">
+								<span class="artp-preview-heading">✨ Almost Ready!</span>
+								<span class="artp-preview-text"><?php esc_html_e( "We're putting the finishing touches on something great.", 'almost-ready-temporary-page' ); ?></span>
+								<span class="artp-preview-icons">
 									<span></span><span></span><span></span>
 								</span>
 							</span>
@@ -184,11 +186,8 @@ class ARTP_Settings_Page {
 			transition: border-color 0.15s, box-shadow 0.15s;
 			background: #fff;
 		}
-		.artp-style-card:hover {
-			border-color: #2271b1;
-			box-shadow: 0 0 0 1px #2271b1;
-		}
-		.artp-style-card--active {
+		.artp-style-card:hover,
+		.artp-style-card:has(input:checked) {
 			border-color: #2271b1;
 			box-shadow: 0 0 0 1px #2271b1;
 		}
@@ -197,40 +196,43 @@ class ARTP_Settings_Page {
 			opacity: 0;
 			pointer-events: none;
 		}
+		/* Preview thumbnail — mimics the real temporary page layout */
 		.artp-style-preview {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			height: 120px;
-			gap: 8px;
-			padding: 16px;
+			height: 160px;
+			gap: 7px;
+			padding: 20px 16px;
+			box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.07);
 		}
-		.artp-style-preview-bar {
-			display: block;
-			height: 10px;
-			width: 60%;
-			border-radius: 4px;
-			background: currentColor;
-			opacity: 0.85;
+		.artp-preview-heading {
+			font-size: 12px;
+			font-weight: 700;
+			text-align: center;
+			line-height: 1.2;
+			letter-spacing: 0.02em;
 		}
-		.artp-style-preview-bar--short {
-			width: 40%;
-			height: 7px;
-			opacity: 0.55;
+		.artp-preview-text {
+			font-size: 9px;
+			text-align: center;
+			opacity: 0.72;
+			max-width: 130px;
+			line-height: 1.4;
 		}
-		.artp-style-preview-dots {
+		.artp-preview-icons {
 			display: flex;
 			gap: 6px;
 			margin-top: 4px;
 		}
-		.artp-style-preview-dots span {
+		.artp-preview-icons span {
 			display: block;
 			width: 10px;
 			height: 10px;
 			border-radius: 50%;
 			background: currentColor;
-			opacity: 0.6;
+			opacity: 0.65;
 		}
 		.artp-style-info {
 			display: flex;

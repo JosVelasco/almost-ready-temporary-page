@@ -81,6 +81,7 @@ class ARTP_Style_Manager {
 				'label'            => __( 'Nature Photo', 'almost-ready-temporary-page' ),
 				'description'      => __( 'A landscape photo from the WordPress Photo Directory (CC0) as a full-screen background.', 'almost-ready-temporary-page' ),
 				'preview_gradient' => 'linear-gradient(135deg, rgb(30,80,40) 0%, rgb(180,130,60) 100%)',
+				'preview_bg'       => 'linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.55)),url("https://pd.w.org/2026/04/68669cd2a70648216.07059024-2048x1536.jpg") center/cover no-repeat',
 				'text_preview'     => '#ffffff',
 			),
 			'forest'  => array(
