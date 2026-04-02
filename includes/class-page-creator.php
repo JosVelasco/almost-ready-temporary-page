@@ -84,12 +84,11 @@ class ARTP_Page_Creator {
 
 	/**
 	 * Get the default block content for the temporary page.
-	 * Delegates to the active style in ARTP_Style_Manager.
 	 *
 	 * @return string Block content.
 	 */
 	private static function get_default_content() {
-		return ARTP_Style_Manager::get_content_for_style( ARTP_Style_Manager::get_active_style() );
+		return ARTP_Pattern_Manager::get_default_content();
 	}
 
 	/**

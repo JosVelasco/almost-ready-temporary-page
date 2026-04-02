@@ -30,11 +30,10 @@ define( 'ARTP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 /**
  * Include required files.
  */
-require_once ARTP_PLUGIN_DIR . 'includes/class-style-manager.php';
+require_once ARTP_PLUGIN_DIR . 'includes/class-pattern-manager.php';
 require_once ARTP_PLUGIN_DIR . 'includes/class-page-creator.php';
 require_once ARTP_PLUGIN_DIR . 'includes/class-maintenance-mode.php';
 require_once ARTP_PLUGIN_DIR . 'includes/class-admin-notice.php';
-require_once ARTP_PLUGIN_DIR . 'includes/class-pattern-manager.php';
 
 /**
  * Activation hook - Create the temporary page.
@@ -58,10 +57,9 @@ register_deactivation_hook( __FILE__, 'artp_deactivate_plugin' );
  * Initialize the temporary page functionality.
  */
 function artp_init() {
-	ARTP_Style_Manager::init();
+	ARTP_Pattern_Manager::init();
 	ARTP_Maintenance_Mode::init();
 	ARTP_Admin_Notice::init();
-	ARTP_Pattern_Manager::init();
 }
 add_action( 'plugins_loaded', 'artp_init' );
 
