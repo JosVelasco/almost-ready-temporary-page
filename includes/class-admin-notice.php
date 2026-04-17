@@ -35,16 +35,20 @@ class ARTP_Admin_Notice {
 			return;
 		}
 
-		// Get fresh page status (bypass cache).
-		$temporary_page = get_page_by_path( ARTP_Page_Creator::PAGE_SLUG, OBJECT, 'page' );
-		
+		// Don't show on the plugin's own settings page.
+		$current_screen = get_current_screen();
+		if ( $current_screen && 'settings_page_almost-ready-settings' === $current_screen->id ) {
+			return;
+		}
+
+		$temporary_page = ARTP_Page_Creator::get_temporary_page();
+
 		if ( ! $temporary_page || 'publish' !== $temporary_page->post_status ) {
 			return;
 		}
 
-		// Get edit page URL.
 		$edit_url = get_edit_post_link( $temporary_page->ID );
-		
+
 		?>
 		<div class="notice notice-warning is-dismissible artp-temporary-page-notice">
 			<p>
@@ -125,9 +129,9 @@ class ARTP_Admin_Notice {
 
 		// Prepare localized script data.
 		$script_data = array(
-			'nonce'              => wp_create_nonce( 'artp_deactivate_temporary_page' ),
-			'confirmMessage'     => __( 'Are you sure you want to deactivate the temporary page? Visitors will be able to access your site.', 'almost-ready-temporary-page' ),
-			'errorMessage'       => __( 'Error deactivating temporary page. Please try again.', 'almost-ready-temporary-page' ),
+			'nonce'          => wp_create_nonce( 'artp_deactivate_temporary_page' ),
+			'confirmMessage' => __( 'Are you sure you want to deactivate the temporary page? Visitors will be able to access your site.', 'almost-ready-temporary-page' ),
+			'errorMessage'   => __( 'Error deactivating temporary page. Please try again.', 'almost-ready-temporary-page' ),
 		);
 
 		// Register and enqueue the inline script.
@@ -155,7 +159,7 @@ class ARTP_Admin_Notice {
 				// Handle deactivate link
 				$(".artp-deactivate-link").on("click", function(e) {
 					e.preventDefault();
-					
+
 					if (!confirm(artpData.confirmMessage)) {
 						return;
 					}

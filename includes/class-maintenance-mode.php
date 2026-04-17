@@ -36,7 +36,8 @@ class ARTP_Maintenance_Mode {
 		}
 
 		// Don't show on the temporary page itself to avoid loops.
-		if ( is_page( ARTP_Page_Creator::PAGE_SLUG ) ) {
+		$page_id = ARTP_Page_Creator::get_temporary_page_id();
+		if ( $page_id && is_page( $page_id ) ) {
 			return;
 		}
 
@@ -61,21 +62,23 @@ class ARTP_Maintenance_Mode {
 	 * Remove header and footer from the temporary page.
 	 */
 	public static function remove_header_footer() {
+		$page_id = ARTP_Page_Creator::get_temporary_page_id();
+
 		// Only apply to the temporary page.
-		if ( ! is_page( ARTP_Page_Creator::PAGE_SLUG ) ) {
+		if ( ! $page_id || ! is_page( $page_id ) ) {
 			return;
 		}
 
 		// Remove theme support for various features to prevent header/footer rendering.
 		add_filter( 'show_admin_bar', '__return_false' );
-		
+
 		// Remove header and footer hooks for classic themes.
 		add_filter( 'get_header', array( __CLASS__, 'blank_header' ) );
 		add_filter( 'get_footer', array( __CLASS__, 'blank_footer' ) );
-		
+
 		// For block themes, remove template parts.
 		add_filter( 'render_block', array( __CLASS__, 'remove_template_parts' ), 10, 2 );
-		
+
 		// Use a custom template.
 		add_filter( 'template_include', array( __CLASS__, 'custom_template' ) );
 	}
@@ -122,10 +125,9 @@ class ARTP_Maintenance_Mode {
 	 * @return string Modified template path.
 	 */
 	public static function custom_template( $template ) {
-		if ( is_page( ARTP_Page_Creator::PAGE_SLUG ) ) {
-			// Create a custom template that only outputs the content.
+		$page_id = ARTP_Page_Creator::get_temporary_page_id();
+		if ( $page_id && is_page( $page_id ) ) {
 			$custom_template = ARTP_PLUGIN_DIR . 'templates/temporary-page-template.php';
-			
 			if ( file_exists( $custom_template ) ) {
 				return $custom_template;
 			}
@@ -140,7 +142,8 @@ class ARTP_Maintenance_Mode {
 	 * @return array Modified robots directives.
 	 */
 	public static function add_noindex_robots( $robots ) {
-		if ( is_page( ARTP_Page_Creator::PAGE_SLUG ) ) {
+		$page_id = ARTP_Page_Creator::get_temporary_page_id();
+		if ( $page_id && is_page( $page_id ) ) {
 			$robots['noindex']  = true;
 			$robots['nofollow'] = true;
 		}
