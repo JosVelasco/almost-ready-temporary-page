@@ -4,7 +4,7 @@ Tags: temporary page, coming soon, maintenance mode, blocks, under construction
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,17 +101,15 @@ Almost Ready Temporary Page is the only plugin that uses native WordPress core b
 
 == Changelog ==
 
-= 1.1.1 =
-* Added "Delete plugin data when uninstalling" option to the Settings page
-* Plugin data is removed from the database on uninstall when opted in — the temporary page itself is always kept
-
 = 1.1.0 =
 * Added Settings page under Settings > Almost Ready
 * Activate/deactivate the temporary page from the Settings page
 * Assign any existing page as the temporary page via a dropdown
 * Pages are now tracked by ID instead of slug — renaming the page title or slug is fully supported
 * Plugin row link switches to Settings when the temporary page is inactive
+* Added "Delete plugin data when uninstalling" option (the temporary page itself is always kept)
 * Existing installs are migrated automatically
+* Props @pmmueller for suggesting the ability to rename the temporary page
 
 = 1.0.0 =
 * Initial release
@@ -122,11 +120,8 @@ Almost Ready Temporary Page is the only plugin that uses native WordPress core b
 
 == Upgrade Notice ==
 
-= 1.1.1 =
-Adds an optional "Delete plugin data when uninstalling" setting. No action needed for existing installs.
-
 = 1.1.0 =
-Adds a Settings page with an activate/deactivate toggle and page selector. Pages are now tracked by ID, so you can freely rename the temporary page. Existing installs are migrated automatically — no action needed.
+Adds a Settings page with an activate/deactivate toggle, page selector, and optional data deletion on uninstall. Pages are now tracked by ID, so you can freely rename the temporary page. Existing installs are migrated automatically — no action needed.
 
 = 1.0.0 =
 Initial release of Almost Ready Temporary Page.

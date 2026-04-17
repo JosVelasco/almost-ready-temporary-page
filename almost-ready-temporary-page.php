@@ -3,7 +3,7 @@
  * Plugin Name: Almost Ready Temporary Page
  * Plugin URI: https://github.com/JosVelasco/almost-ready-temporary-page
  * Description: A simple plugin that displays a customizable temporary page to visitors while allowing logged-in users to work on the site. Fully editable using native WordPress blocks.
- * Version: 1.1.1
+ * Version: 1.1.0
  * Author: Jos Velasco
  * Author URI: https://josvelasco.com
  * License: GPL v2 or later
@@ -22,7 +22,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Current plugin version.
  */
-define( 'ARTP_VERSION', '1.1.1' );
+define( 'ARTP_VERSION', '1.1.0' );
 define( 'ARTP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ARTP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
