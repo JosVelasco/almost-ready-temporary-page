@@ -4,7 +4,7 @@ Tags: temporary page, coming soon, maintenance mode, blocks, under construction
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,7 @@ Almost Ready Temporary Page is a simple plugin that shows a friendly temporary p
 * **SEO Friendly** - Tells search engines not to index the temporary page
 * **Theme Compatible** - Works with any WordPress theme
 * **Clean Removal** - When deactivated, everything returns to normal
+* **Clean Uninstall** - Optionally delete all plugin data when uninstalling (the page itself is kept)
 
 **Perfect for:**
 
@@ -84,6 +85,10 @@ Yes! You can rename the page title and slug to anything you like. The plugin tra
 
 Yes. Go to Settings > Almost Ready and select any page from the dropdown.
 
+= Will the plugin delete my page if I uninstall it? =
+
+No. The temporary page is always kept. If you want the plugin to also remove its data from the database on uninstall, enable "Delete plugin data when uninstalling" in Settings > Almost Ready before deleting the plugin.
+
 = What makes this different from other maintenance plugins? =
 
 Almost Ready Temporary Page is the only plugin that uses native WordPress core blocks for the temporary page. Other plugins use custom builders or proprietary templates. This means your page is lightweight, future-proof, and works exactly like any other WordPress page.
@@ -95,6 +100,10 @@ Almost Ready Temporary Page is the only plugin that uses native WordPress core b
 3. Simple plugin activation - no settings required
 
 == Changelog ==
+
+= 1.1.1 =
+* Added "Delete plugin data when uninstalling" option to the Settings page
+* Plugin data is removed from the database on uninstall when opted in — the temporary page itself is always kept
 
 = 1.1.0 =
 * Added Settings page under Settings > Almost Ready
@@ -112,6 +121,9 @@ Almost Ready Temporary Page is the only plugin that uses native WordPress core b
 * Smart user detection
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+Adds an optional "Delete plugin data when uninstalling" setting. No action needed for existing installs.
 
 = 1.1.0 =
 Adds a Settings page with an activate/deactivate toggle and page selector. Pages are now tracked by ID, so you can freely rename the temporary page. Existing installs are migrated automatically — no action needed.
