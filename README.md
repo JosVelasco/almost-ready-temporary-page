@@ -20,9 +20,12 @@ A simple WordPress plugin that displays a customizable temporary page to visitor
 * **Automatic Setup** - No complicated configuration needed
 * **Smart Detection** - Visitors see the temporary page, you see the normal site
 * **Fully Customizable** - Change text, colors, layout, add images using blocks
+* **Settings Page** - Activate/deactivate and assign any page directly from Settings > Almost Ready
+* **Rename Freely** - Rename the page title and slug without breaking anything — the plugin tracks it by ID
 * **SEO Friendly** - Tells search engines not to index the temporary page
 * **Theme Compatible** - Works with any WordPress theme
 * **Clean Removal** - When deactivated, everything returns to normal
+* **Clean Uninstall** - Optionally delete all plugin data when uninstalling (the page itself is kept)
 
 ## Installation
 
@@ -30,10 +33,21 @@ A simple WordPress plugin that displays a customizable temporary page to visitor
 2. Upload to `/wp-content/plugins/almost-ready-temporary-page` or install through WordPress admin
 3. Activate the plugin through the 'Plugins' screen
 4. That's it! The temporary page is now live for visitors
+5. To manage settings, go to Settings > Almost Ready
 
 ## Customization
 
 To customize the page, go to Pages > All Pages and edit "Almost Ready" using the WordPress block editor.
+
+You can also rename the page to anything you like — the plugin tracks it by ID, not by slug.
+
+## Settings
+
+Go to **Settings > Almost Ready** to:
+
+* Activate or deactivate the temporary page
+* Assign any existing page as the temporary page
+* Optionally delete plugin data on uninstall
 
 ## License
 
