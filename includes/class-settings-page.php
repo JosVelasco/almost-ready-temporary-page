@@ -132,6 +132,18 @@ class ARTP_Settings_Page {
 							</p>
 						</td>
 					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Uninstall', 'almost-ready-temporary-page' ); ?></th>
+						<td>
+							<label>
+								<input type="checkbox" name="artp_delete_on_uninstall" value="1" <?php checked( get_option( 'artp_delete_on_uninstall' ) ); ?>>
+								<?php esc_html_e( 'Delete plugin data when uninstalling', 'almost-ready-temporary-page' ); ?>
+							</label>
+							<p class="description">
+								<?php esc_html_e( 'The temporary page itself will not be deleted.', 'almost-ready-temporary-page' ); ?>
+							</p>
+						</td>
+					</tr>
 				</table>
 
 				<?php submit_button( __( 'Save Settings', 'almost-ready-temporary-page' ) ); ?>
@@ -150,10 +162,13 @@ class ARTP_Settings_Page {
 
 		check_admin_referer( 'artp_save_settings', 'artp_settings_nonce' );
 
-		$activate    = isset( $_POST['artp_active'] ) && '1' === $_POST['artp_active'];
-		$page_id     = isset( $_POST['artp_page_id'] ) ? (int) $_POST['artp_page_id'] : 0;
-		$old_page_id = ARTP_Page_Creator::get_temporary_page_id();
-		$page_changed = $page_id && $page_id !== $old_page_id;
+		$activate             = isset( $_POST['artp_active'] ) && '1' === $_POST['artp_active'];
+		$page_id              = isset( $_POST['artp_page_id'] ) ? (int) $_POST['artp_page_id'] : 0;
+		$delete_on_uninstall  = isset( $_POST['artp_delete_on_uninstall'] ) && '1' === $_POST['artp_delete_on_uninstall'];
+		$old_page_id          = ARTP_Page_Creator::get_temporary_page_id();
+		$page_changed         = $page_id && $page_id !== $old_page_id;
+
+		update_option( 'artp_delete_on_uninstall', $delete_on_uninstall ? '1' : '' );
 
 		if ( $page_id ) {
 			ARTP_Page_Creator::set_temporary_page_id( $page_id );
