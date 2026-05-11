@@ -47,21 +47,19 @@ class ARTP_Maintenance_Mode {
 		}
 
 		// Redirect common admin/login URL shortcuts (e.g. /login, /admin) to wp-login.php.
-		// WordPress's own wp_redirect_admin_locations() only fires with pretty permalinks,
-		// so we handle this explicitly to cover all permalink configurations.
-		if ( is_404() ) {
-			$request_path    = untrailingslashit( strtok( $_SERVER['REQUEST_URI'], '?' ) );
-			$admin_shortcuts = array(
-				home_url( 'login', 'relative' ),
-				home_url( 'admin', 'relative' ),
-				home_url( 'wp-login.php', 'relative' ),
-				home_url( 'wp-admin', 'relative' ),
-				site_url( 'wp-login.php', 'relative' ),
-			);
-			if ( in_array( $request_path, $admin_shortcuts, true ) ) {
-				wp_safe_redirect( wp_login_url() );
-				exit;
-			}
+		// Checked unconditionally because with an index.php permalink prefix WordPress may
+		// resolve these paths as a front-page query rather than a 404.
+		$request_path    = untrailingslashit( strtok( $_SERVER['REQUEST_URI'], '?' ) );
+		$admin_shortcuts = array(
+			home_url( 'login', 'relative' ),
+			home_url( 'admin', 'relative' ),
+			home_url( 'wp-login.php', 'relative' ),
+			home_url( 'wp-admin', 'relative' ),
+			site_url( 'wp-login.php', 'relative' ),
+		);
+		if ( in_array( $request_path, $admin_shortcuts, true ) ) {
+			wp_safe_redirect( wp_login_url() );
+			exit;
 		}
 
 		// Get the temporary page.
