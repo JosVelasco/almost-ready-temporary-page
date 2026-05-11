@@ -46,8 +46,9 @@ class ARTP_Maintenance_Mode {
 			return;
 		}
 
-		// Don't intercept WordPress admin/login URL shortcuts (e.g. /login, /admin) on 404s,
-		// so WordPress can redirect them to wp-login.php as expected.
+		// Redirect common admin/login URL shortcuts (e.g. /login, /admin) to wp-login.php.
+		// WordPress's own wp_redirect_admin_locations() only fires with pretty permalinks,
+		// so we handle this explicitly to cover all permalink configurations.
 		if ( is_404() ) {
 			$request_path    = untrailingslashit( strtok( $_SERVER['REQUEST_URI'], '?' ) );
 			$admin_shortcuts = array(
@@ -58,7 +59,8 @@ class ARTP_Maintenance_Mode {
 				site_url( 'wp-login.php', 'relative' ),
 			);
 			if ( in_array( $request_path, $admin_shortcuts, true ) ) {
-				return;
+				wp_safe_redirect( wp_login_url() );
+				exit;
 			}
 		}
 
