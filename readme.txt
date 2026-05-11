@@ -4,7 +4,7 @@ Tags: temporary page, coming soon, maintenance mode, blocks, under construction
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,10 @@ Almost Ready Temporary Page is the only plugin that uses native WordPress core b
 
 == Changelog ==
 
+= 1.1.1 =
+* Fix: /login and /admin URL shortcuts now correctly redirect to wp-login.php when the temporary page is active
+* Props @pmmueller for the report
+
 = 1.1.0 =
 * Added Settings page under Settings > Almost Ready
 * Activate/deactivate the temporary page from the Settings page
@@ -119,6 +123,9 @@ Almost Ready Temporary Page is the only plugin that uses native WordPress core b
 * Smart user detection
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+Fixes /login and /admin URL shortcuts being intercepted by the temporary page redirect.
 
 = 1.1.0 =
 Adds a Settings page with an activate/deactivate toggle, page selector, and optional data deletion on uninstall. Pages are now tracked by ID, so you can freely rename the temporary page. Existing installs are migrated automatically — no action needed.
