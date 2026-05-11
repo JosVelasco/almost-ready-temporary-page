@@ -49,7 +49,8 @@ class ARTP_Maintenance_Mode {
 		// Redirect common admin/login URL shortcuts (e.g. /login, /admin) to wp-login.php.
 		// Checked unconditionally because with an index.php permalink prefix WordPress may
 		// resolve these paths as a front-page query rather than a 404.
-		$request_path    = untrailingslashit( strtok( $_SERVER['REQUEST_URI'], '?' ) );
+		$request_uri     = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+		$request_path    = untrailingslashit( strtok( $request_uri, '?' ) );
 		$admin_shortcuts = array(
 			home_url( 'login', 'relative' ),
 			home_url( 'admin', 'relative' ),
