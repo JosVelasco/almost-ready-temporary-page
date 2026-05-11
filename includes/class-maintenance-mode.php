@@ -46,6 +46,22 @@ class ARTP_Maintenance_Mode {
 			return;
 		}
 
+		// Don't intercept WordPress admin/login URL shortcuts (e.g. /login, /admin) on 404s,
+		// so WordPress can redirect them to wp-login.php as expected.
+		if ( is_404() ) {
+			$request_path    = untrailingslashit( strtok( $_SERVER['REQUEST_URI'], '?' ) );
+			$admin_shortcuts = array(
+				home_url( 'login', 'relative' ),
+				home_url( 'admin', 'relative' ),
+				home_url( 'wp-login.php', 'relative' ),
+				home_url( 'wp-admin', 'relative' ),
+				site_url( 'wp-login.php', 'relative' ),
+			);
+			if ( in_array( $request_path, $admin_shortcuts, true ) ) {
+				return;
+			}
+		}
+
 		// Get the temporary page.
 		$temporary_page = ARTP_Page_Creator::get_temporary_page();
 
