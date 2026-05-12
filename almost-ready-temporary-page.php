@@ -56,6 +56,7 @@ register_deactivation_hook( __FILE__, 'artp_deactivate_plugin' );
  * Initialize the temporary page functionality.
  */
 function artp_init() {
+	load_plugin_textdomain( 'almost-ready-temporary-page', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	ARTP_Maintenance_Mode::init();
 	ARTP_Admin_Notice::init();
 	ARTP_Settings_Page::init();
