@@ -4,7 +4,7 @@ Tags: temporary page, coming soon, maintenance mode, blocks, under construction
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,9 @@ Almost Ready Temporary Page is the only plugin that uses native WordPress core b
 
 == Changelog ==
 
+= 1.1.3 =
+* Fix: On WordPress 7.2 and later, random content redirects (/random/, ?random) sent visitors to real post URLs before the temporary page, revealing their addresses. Visitors now go straight to the temporary page.
+
 = 1.1.2 =
 * Fix: Plugin textdomain was never loaded, preventing translations from being applied
 * Removed incomplete bundled es_ES translation in favour of community translations on translate.wordpress.org
@@ -127,6 +130,9 @@ Almost Ready Temporary Page is the only plugin that uses native WordPress core b
 * Smart user detection
 
 == Upgrade Notice ==
+
+= 1.1.3 =
+Recommended before updating to WordPress 7.2: stops /random/ from revealing post URLs to visitors while the temporary page is active.
 
 = 1.1.2 =
 Fixes translations not loading. Removes the bundled es_ES translation — community translations are available on translate.wordpress.org.
