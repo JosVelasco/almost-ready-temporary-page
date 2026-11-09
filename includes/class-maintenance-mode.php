@@ -22,8 +22,33 @@ class ARTP_Maintenance_Mode {
 	 */
 	public static function init() {
 		add_action( 'template_redirect', array( __CLASS__, 'show_temporary_page' ) );
+		add_filter( 'request', array( __CLASS__, 'disable_random_redirect' ) );
 		add_filter( 'wp_robots', array( __CLASS__, 'add_noindex_robots' ) );
 		add_action( 'wp', array( __CLASS__, 'remove_header_footer' ) );
+	}
+
+	/**
+	 * Stop random content redirects (WordPress 7.2+) for visitors.
+	 *
+	 * Random content redirects (e.g. /random/) are sent before template_redirect,
+	 * which would reveal post URLs to visitors who should only see the temporary page.
+	 * Removing the query var lets the request reach show_temporary_page() instead.
+	 *
+	 * @param array $query_vars Parsed query variables.
+	 * @return array Modified query variables.
+	 */
+	public static function disable_random_redirect( $query_vars ) {
+		if ( ! isset( $query_vars['random'] ) || is_user_logged_in() ) {
+			return $query_vars;
+		}
+
+		$temporary_page = ARTP_Page_Creator::get_temporary_page();
+
+		if ( $temporary_page && 'publish' === $temporary_page->post_status ) {
+			unset( $query_vars['random'] );
+		}
+
+		return $query_vars;
 	}
 
 	/**
